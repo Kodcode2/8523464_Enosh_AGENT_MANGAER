@@ -1,0 +1,87 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mosadexam\\rest\\agentrest\\agentrest\\models\\targetmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|solutionrelative:agentrest\\models\\targetmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mosadexam\\rest\\agentrest\\agentrest\\models\\agentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|solutionrelative:agentrest\\models\\agentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mosadexam\\rest\\agentrest\\agentrest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|solutionrelative:agentrest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mosadexam\\rest\\agentrest\\agentrest\\agentrest.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{9159A6AF-BAE3-47F1-ABA5-09A582C55F04}|AgentRest\\AgentRest.csproj|solutionrelative:agentrest\\agentrest.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 176,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TargetModel.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\Models\\TargetModel.cs",
+              "RelativeDocumentMoniker": "AgentRest\\Models\\TargetModel.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\Models\\TargetModel.cs",
+              "RelativeToolTip": "AgentRest\\Models\\TargetModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-21T11:13:52.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AgentModel.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\Models\\AgentModel.cs",
+              "RelativeDocumentMoniker": "AgentRest\\Models\\AgentModel.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\Models\\AgentModel.cs",
+              "RelativeToolTip": "AgentRest\\Models\\AgentModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-21T11:12:56.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\Program.cs",
+              "RelativeDocumentMoniker": "AgentRest\\Program.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\Program.cs",
+              "RelativeToolTip": "AgentRest\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-21T11:00:41.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AgentRest.http",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.http",
+              "RelativeDocumentMoniker": "AgentRest\\AgentRest.http",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.http",
+              "RelativeToolTip": "AgentRest\\AgentRest.http",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-08-21T11:00:39.003Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

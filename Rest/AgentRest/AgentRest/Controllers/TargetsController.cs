@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgentRest.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class TargetController(ITargetService targetService) : ControllerBase
+    public class TargetsController(ITargetService targetService) : ControllerBase
     {
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -24,7 +24,6 @@ namespace AgentRest.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            
         }
     }
 }

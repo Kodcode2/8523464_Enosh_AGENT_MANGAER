@@ -20,7 +20,7 @@ namespace AgentRest.Migrations
                     Image = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     XPosition = table.Column<int>(type: "int", nullable: false),
                     YPosition = table.Column<int>(type: "int", nullable: false),
-                    TargetStatus = table.Column<int>(type: "int", nullable: false)
+                    AgentStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,7 +55,7 @@ namespace AgentRest.Migrations
                     AgentId = table.Column<long>(type: "bigint", nullable: false),
                     RemainingTime = table.Column<double>(type: "float", nullable: false),
                     ExecutionTime = table.Column<double>(type: "float", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    MissionStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

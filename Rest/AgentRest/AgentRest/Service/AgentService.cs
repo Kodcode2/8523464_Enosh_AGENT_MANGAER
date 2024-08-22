@@ -5,18 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgentRest.Service
 {
-    public class AgentService(ApplicationDbContext context) : IAgentService
+    public class AgentService(ApplicationDbContext context, IMissionService missionService) : IAgentService
     {
-        public async Task<AgentModel> CreateAgentAsync(AgentDto agentDto)
+        public async Task<IdDto> CreateAgentAsync(AgentDto agentDto)
         {
             AgentModel? agentModel = new()
             {
                 NickName = agentDto.NickName,
-                Image = agentDto.Photo_url,
+                Image = agentDto.Photo_url
             };
             await context.Agents.AddAsync(agentModel);
             await context.SaveChangesAsync();
-            return agentModel;
+            AgentModel? target = await context.Agents.FindAsync(agentModel)
+                ?? throw new Exception("Something went wrong");
+            return new() { Id = agentModel.Id };
         }
 
         public async Task<AgentModel?> GetAgentByIdAsync(long id) =>
@@ -32,9 +34,16 @@ namespace AgentRest.Service
             return agent;
         }
 
-        public Task<AgentModel?> GetAvailableAgentAsync(TargetModel target)
+        public async Task<AgentModel?> GetAvailableAgentAsync(TargetModel target) => 
+            await context.Agents
+                .Where(a => a.AgentStatus == AgentModel.Status.Inactive)
+                .Where(a => missionService.MeasureDistance(target, a) < 200)
+                .FirstOrDefaultAsync();
+
+        public async Task<bool> IsAvailableAgent(long agentId)
         {
-            throw new NotImplementedException();
+            AgentModel? agent = await GetAgentByIdAsync(agentId);
+            return agent!.AgentStatus == AgentModel.Status.Inactive;
         }
     }
 }

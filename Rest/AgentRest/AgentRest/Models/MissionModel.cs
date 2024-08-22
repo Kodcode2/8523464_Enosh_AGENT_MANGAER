@@ -15,6 +15,6 @@
         public TargetModel? Target { get; set; }
         public double RemainingTime { get; set; }
         public double ExecutionTime { get; set; }
-        public Status Status { get; set; } = Status.Propose;
+        public Status MissionStatus { get; set; } = Status.Propose;
     }
 }

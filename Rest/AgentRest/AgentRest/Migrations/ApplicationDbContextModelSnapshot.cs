@@ -29,6 +29,9 @@ namespace AgentRest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<int>("AgentStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -38,9 +41,6 @@ namespace AgentRest.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("TargetStatus")
-                        .HasColumnType("int");
 
                     b.Property<int>("XPosition")
                         .HasColumnType("int");
@@ -67,11 +67,11 @@ namespace AgentRest.Migrations
                     b.Property<double>("ExecutionTime")
                         .HasColumnType("float");
 
+                    b.Property<int>("MissionStatus")
+                        .HasColumnType("int");
+
                     b.Property<double>("RemainingTime")
                         .HasColumnType("float");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<long>("TargetId")
                         .HasColumnType("bigint");

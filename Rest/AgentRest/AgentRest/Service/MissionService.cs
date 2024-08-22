@@ -27,7 +27,7 @@ namespace AgentRest.Service
         public async Task<MissionModel> ActivateMissionAsync(long missionId)
         {
             MissionModel? mission = await GetMissionByIdAsync(missionId);
-            mission!.Status = Status.Active;
+            mission!.MissionStatus = Status.Active;
             await context.SaveChangesAsync();
             return mission;
         }
@@ -35,7 +35,7 @@ namespace AgentRest.Service
         public async Task<MissionModel> EndMissionAsync(long missionId)
         {
             MissionModel? mission = await GetMissionByIdAsync(missionId);
-            mission!.Status = Status.Ended;
+            mission!.MissionStatus = Status.Ended;
             await context.SaveChangesAsync();
             return mission;
         }
@@ -59,5 +59,11 @@ namespace AgentRest.Service
             Math.Sqrt(Math.Pow(target.XPosition - agent.XPosition, 2)
                     + Math.Pow(target.YPosition - agent.YPosition, 2));
 
+        public async Task DeleteMissionByIdAsync(long missionId)
+        {
+            MissionModel? mission = await GetMissionByIdAsync(missionId);
+            context.Missions.Remove(mission!);
+            await context.SaveChangesAsync();
+        }
     }
 }

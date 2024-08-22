@@ -4529,11 +4529,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.csproj",
+      "projectUniqueName": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.csproj",
       "projectName": "AgentRest",
-      "projectPath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.csproj",
+      "projectPath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.csproj",
       "packagesPath": "C:\\Users\\Israel Fridless\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\obj\\",
+      "outputPath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Rest\\AgentRest\\AgentRest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

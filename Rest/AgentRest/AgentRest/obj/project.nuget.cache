@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4pr7nd/I5xE=",
+  "dgSpecHash": "Zxx4Xgeay+4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MosadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.csproj",
+  "projectFilePath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Rest\\AgentRest\\AgentRest\\AgentRest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Israel Fridless\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Israel Fridless\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

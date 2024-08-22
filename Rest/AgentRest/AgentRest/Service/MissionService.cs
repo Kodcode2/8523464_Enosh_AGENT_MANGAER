@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgentRest.Service
 {
-    public class MissionService(ApplicationDbContext context, IAgentService agentService) : IMissionService
+    public class MissionService(ApplicationDbContext context) : IMissionService
     {
         public async Task<MissionModel?> GetMissionByAgentIdAsync(long agentId) =>
-            await context.Missions.Where(m => m.AgentId == agentId).FirstOrDefaultAsync() 
+            await context.Missions.FirstOrDefaultAsync(m => m.AgentId == agentId) 
             ?? throw new Exception("Could not find the mission by the given agentId");
 
         public async Task<MissionModel?> GetMissionByTargetIdAsync(long targetId) =>
-            await context.Missions.Where(m => m.TargetId == targetId).FirstOrDefaultAsync()
+            await context.Missions.FirstOrDefaultAsync(m => m.TargetId == targetId)
             ?? throw new Exception("Could not find the mission by the given targetId");
 
         public async Task<List<MissionModel>> GetMissionsAsync() =>
@@ -21,7 +21,7 @@ namespace AgentRest.Service
             : [];
 
         public async Task<MissionModel?> GetMissionByIdAsync(long id) =>
-            await context.Missions.Where(m => m.Id == id).FirstOrDefaultAsync()
+            await context.Missions.FirstOrDefaultAsync(m => m.Id == id)
             ?? throw new Exception("Could not found the mission by the given id");
 
         public async Task<MissionModel> ActivateMissionAsync(long missionId)
@@ -40,15 +40,14 @@ namespace AgentRest.Service
             return mission;
         }
 
-        public async Task<MissionModel?> CreateMissionByTarget(TargetModel target)
+        public async Task<MissionModel?> CreateMissionAsync(TargetModel target, AgentModel agent)
         {
-            AgentModel? closestAgent = await agentService.GetAvailableAgentAsync(target);
             MissionModel? newMission = new()
             {
                 Target = target,
-                Agent = closestAgent,
+                Agent = agent,
                 TargetId = target.Id,
-                AgentId = closestAgent!.Id
+                AgentId = agent!.Id
             };
             await context.Missions.AddAsync(newMission);
             await context.SaveChangesAsync();

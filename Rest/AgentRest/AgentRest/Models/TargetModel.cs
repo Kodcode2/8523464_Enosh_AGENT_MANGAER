@@ -7,7 +7,8 @@ namespace AgentRest.Models
         public enum Status
         {
             Alive,
-            dead
+            Hunted,
+            Dead
         }
         public long Id { get; set; }
         [Required]

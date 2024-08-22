@@ -8,7 +8,7 @@ namespace AgentRest.Service
         Task<IdDto> CreateAgentAsync(AgentDto agentDto);
         Task<AgentModel?> GetAgentByIdAsync(long id);
         Task<AgentModel> PinAgentAsync(long agentId, LocationDto locationDto);
-        Task<AgentModel?> GetAvailableAgentAsync(TargetModel target);
+        Task<List<AgentModel>> GetAvailableAgentsAsync(TargetModel target);
         Task<bool> IsAvailableAgent(long agentId);
     }
 }

@@ -1,12 +1,16 @@
 ﻿using AgentRest.Data;
 using AgentRest.Dto;
 using AgentRest.Models;
+using AgentRest.Service;
 using Microsoft.EntityFrameworkCore;
 
 namespace AgentRest.Service
 {
-    public class TargetService(ApplicationDbContext context) : ITargetService
+    public class TargetService(ApplicationDbContext context, IServiceProvider serviceProvider) : ITargetService
     {
+        private IAgentService agentService = serviceProvider.GetRequiredService<IAgentService>();
+        private IMissionService missionService = serviceProvider.GetRequiredService<IMissionService>();
+
         private readonly Dictionary<string, (int, int)> Direction = new()
         {
             {"n", (0, 1)},
@@ -63,7 +67,7 @@ namespace AgentRest.Service
             return target;
         }
 
-        public bool IsInValidPosition(int x, int y) => (y > 1000 || x > 1000 || y < 0 || x < 0);
+        public bool IsInvalidPosition(int x, int y) => (y > 1000 || x > 1000 || y < 0 || x < 0);
 
         public async Task<TargetModel> UpdateTargetLocationAsync(long targetId, DirectionDto directionDto)
         {
@@ -71,11 +75,17 @@ namespace AgentRest.Service
             var (x, y) = Direction[directionDto.Direction];
             target!.XPosition += x;
             target!.YPosition += y;
-            if (IsInValidPosition(target.XPosition, target.YPosition)) 
+            if (IsInvalidPosition(target.XPosition, target.YPosition)) 
             { 
-                throw new Exception($"The corresponds coordinats: x:{target.XPosition}, y:{target.YPosition} are off the map border"); 
-            } 
+                throw new Exception($"The corresponds coordinats: x:{target.XPosition}, y:{target.YPosition} are off the map borders"); 
+            }
             await context.SaveChangesAsync();
+
+            List<AgentModel> closestAgents = await agentService.GetAvailableAgentsAsync(target);
+            if (closestAgents.Count > 0)
+            {
+                closestAgents.ForEach(agent => { missionService.CreateMissionAsync(target, agent); });
+            }
             return target;
         }
 
@@ -85,7 +95,19 @@ namespace AgentRest.Service
             target!.XPosition = locationDto.XPosition;
             target.YPosition = locationDto.YPosition;
             context.SaveChanges();
+
+            List<AgentModel> closestAgents = await agentService.GetAvailableAgentsAsync(target);
+            if (closestAgents.Count > 0)
+            {
+                closestAgents.ForEach(agent => { missionService.CreateMissionAsync(target, agent); });
+            }
             return target;
         }
+
+        public async Task<TargetModel?> GetAvailableTargetAsync(AgentModel agent) =>
+            await context.Targets
+                .Where(t => t.TargetStatus == TargetModel.Status.Alive)
+                .Where(t => missionService.MeasureDistance(t, agent) < 200)
+                .FirstOrDefaultAsync();
     }
 }

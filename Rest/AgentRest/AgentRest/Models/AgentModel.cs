@@ -7,7 +7,7 @@ namespace AgentRest.Models
         public enum Status
         {
             Active,
-            Inactive
+            InActive
         }
         public long Id { get; set; }
         [Required]
@@ -18,6 +18,6 @@ namespace AgentRest.Models
         public required string Image { get; set; }
         public int XPosition { get; set; } = -1;
         public int YPosition { get; set; } = -1;
-        public Status AgentStatus { get; set; } = Status.Inactive;
+        public Status AgentStatus { get; set; } = Status.InActive;
     }
 }

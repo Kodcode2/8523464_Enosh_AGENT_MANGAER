@@ -20,14 +20,23 @@ namespace AgentRest.Service
             return targetModel;
         }
 
+        public async Task DeleteTargetAsync(long targetId)
+        {
+            TargetModel? target = await GetTargetByIdAsync(targetId);
+            context.Targets.Remove(target!);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<List<TargetModel>> GetAllTargetsAsync() =>
-            await context.Targets.ToListAsync() ?? [];
+            await context.Targets.AnyAsync() 
+            ? await context.Targets.ToListAsync()
+            : [];
 
         public async Task<TargetModel?> GetTargetByIdAsync(long id) =>
             await context.Targets.Where(t => t.Id == id).FirstOrDefaultAsync() 
-            ?? throw new Exception("Could not found the the target by the given id");
+            ?? throw new Exception("Could not found the target by the given id");
 
-        public async Task<TargetModel> UpdateTargetAsync(int targetId, TargetModel targetModel)
+        public async Task<TargetModel> UpdateTargetAsync(long targetId, TargetModel targetModel)
         {
             TargetModel? target = await GetTargetByIdAsync(targetId);
             target!.Name = targetModel.Name;

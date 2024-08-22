@@ -7,11 +7,9 @@ namespace AgentRest.Data
     public class ApplicationDbContext : DbContext
     {
         private readonly IConfiguration _configuration;
-        private readonly IHttpClientFactory _clientFactory;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-            IConfiguration configuration, IHttpClientFactory clientFactory) : base(options)
+            IConfiguration configuration) : base(options)
         {
-            _clientFactory = clientFactory;
             _configuration = configuration;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

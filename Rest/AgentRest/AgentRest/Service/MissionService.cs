@@ -59,8 +59,6 @@ namespace AgentRest.Service
         {
             MissionModel? newMission = new()
             {
-                Target = target,
-                Agent = agent,
                 TargetId = target.Id,
                 AgentId = agent!.Id
             };

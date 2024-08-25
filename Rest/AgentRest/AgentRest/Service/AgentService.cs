@@ -28,17 +28,13 @@ namespace AgentRest.Service
             AgentModel? agentModel = new()
             {
                 NickName = agentDto.NickName,
-                Image = agentDto.Photo_url
+                Image = agentDto.PhotoUrl
             };
-            if (await context.Agents.AnyAsync(a => a.NickName == agentModel.NickName && a.Image == agentModel.Image))
-            {
-                throw new Exception($"agent by the name {agentDto.NickName} with the photo {agentDto.Photo_url} is already exists");
-            }
             await context.Agents.AddAsync(agentModel);
             await context.SaveChangesAsync();
             var agent = await context.Agents
                 .Where(a => a.NickName == agentDto.NickName)
-                .Where(a => a.Image == agentDto.Photo_url)
+                .Where(a => a.Image == agentDto.PhotoUrl)
                 .FirstOrDefaultAsync();
             return new() { Id = agent!.Id };
         }
@@ -74,25 +70,33 @@ namespace AgentRest.Service
 
         public async Task<AgentModel?> GetAgentByIdAsync(long id) =>
             await context.Agents.FirstOrDefaultAsync(a => a.Id == id)
-            ?? throw new Exception("Could not found the agent by the given id");
+            ?? throw new Exception($"Could not found the agent by the given id: {id}");
 
         public async Task<AgentModel> PinAgentAsync(long agentId, LocationDto locationDto)
         {
             AgentModel? agent = await GetAgentByIdAsync(agentId);
-            agent!.XPosition = locationDto.XPosition;
-            agent.YPosition = locationDto.YPosition;
-            context.SaveChanges();
+            agent!.XPosition = locationDto.x;
+            agent.YPosition = locationDto.y;
+            await context.SaveChangesAsync();
 
-            List<TargetModel> closestTarget = await targetService.GetAvailableTargestAsync(agent);
-            closestTarget.ForEach(t => { missionService.CreateMissionAsync(t, agent); });
+            var closestTargets = await targetService.GetAvailableTargestAsync(agent) ?? [];
+            if (closestTargets.Count != 0)
+            {
+                var missions = closestTargets.Select((t) => new MissionModel() { AgentId = t.Id, TargetId = agentId });
+                await context.Missions.AddRangeAsync(missions);
+                await context.SaveChangesAsync();
+            }
             return agent;
         }
 
-        public async Task<List<AgentModel>> GetAvailableAgentsAsync(TargetModel target) => 
-            await context.Agents
+        public async Task<List<AgentModel>> GetAvailableAgentsAsync(TargetModel target) =>
+            await context.Agents.AnyAsync()
+            ? await context.Agents
                 .Where(a => a.AgentStatus == AgentStatus.InActive)
-                .Where(a =>  missionService.MeasureDistance(target, a) < 200.0)
-                .ToListAsync();
+                .Where(a => Math.Sqrt(Math.Pow(target.XPosition - a.XPosition, 2)
+                    + Math.Pow(target.YPosition - a.YPosition, 2)) < 200.0)
+                .ToListAsync()
+            : [];
 
         public async Task<bool> IsAvailableAgent(long agentId)
         {

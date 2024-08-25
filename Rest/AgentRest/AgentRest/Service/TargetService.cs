@@ -28,17 +28,16 @@ namespace AgentRest.Service
             TargetModel? targetModel = new()
             {
                 Name = targetDto.Name,
-                Image = targetDto.Photo_url,
+                Image = targetDto.PhotoUrl,
                 Role = targetDto.Position
             };
-            if (await context.Targets.AnyAsync(t => t.Name == targetModel.Name && t.Image == targetModel.Image && t.Role == targetModel.Role))
-            {
-                throw new Exception($"agent by the name {targetModel.Name} with the photo {targetModel.Image} and position {targetModel.Role} is already exists");
-            }
             await context.Targets.AddAsync(targetModel);
             await context.SaveChangesAsync();
-            TargetModel? target = await context.Targets.FindAsync(targetModel);
-            return new() { Id = target!.Id};
+            var target = await context.Targets
+                .Where(t => t.Name == targetModel.Name)
+                .Where(t => t.Image == targetModel.Image)
+                .FirstOrDefaultAsync();
+            return new() { Id = target!.Id };
         }
 
         public async Task DeleteTargetAsync(long targetId)
@@ -49,12 +48,12 @@ namespace AgentRest.Service
         }
 
         public async Task<List<TargetModel>> GetAllTargetsAsync() =>
-            await context.Targets.AnyAsync() 
+            await context.Targets.AnyAsync()
             ? await context.Targets.ToListAsync()
             : [];
 
         public async Task<TargetModel?> GetTargetByIdAsync(long id) =>
-            await context.Targets.FirstOrDefaultAsync(t => t.Id == id) 
+            await context.Targets.FirstOrDefaultAsync(t => t.Id == id)
             ?? throw new Exception("Could not found the target by the given id");
 
         public async Task<TargetModel> UpdateTargetAsync(long targetId, TargetModel targetModel)
@@ -78,9 +77,9 @@ namespace AgentRest.Service
             var (x, y) = Direction[directionDto.Direction];
             target!.XPosition += x;
             target!.YPosition += y;
-            if (IsInvalidPosition(target.XPosition, target.YPosition)) 
-            { 
-                throw new Exception($"The corresponds coordinats: x:{target.XPosition}, y:{target.YPosition} are off the map borders"); 
+            if (IsInvalidPosition(target.XPosition, target.YPosition))
+            {
+                throw new Exception($"The corresponds coordinats: x:{target.XPosition}, y:{target.YPosition} are off the map borders");
             }
             await context.SaveChangesAsync();
 
@@ -95,22 +94,28 @@ namespace AgentRest.Service
         public async Task<TargetModel> PinTargetAsync(long targetId, LocationDto locationDto)
         {
             TargetModel? target = await GetTargetByIdAsync(targetId);
-            target!.XPosition = locationDto.XPosition;
-            target.YPosition = locationDto.YPosition;
-            context.SaveChanges();
+            target!.XPosition = locationDto.x;
+            target.YPosition = locationDto.y;
+            await context.SaveChangesAsync();
 
-            List<AgentModel> closestAgents = await agentService.GetAvailableAgentsAsync(target);
-            if (closestAgents.Count > 0)
+            var closestAgents = await agentService.GetAvailableAgentsAsync(target) ?? [];
+            if (closestAgents.Count != 0)
             {
-                closestAgents.ForEach(agent => { missionService.CreateMissionAsync(target, agent); });
+                var missions = closestAgents.Select((a) => new MissionModel() {  AgentId = a.Id, TargetId = targetId});
+                await context.Missions.AddRangeAsync(missions);
+                await context.SaveChangesAsync();
+                
             }
             return target;
         }
 
-        public async Task<List<TargetModel>> GetAvailableTargestAsync(AgentModel agent) =>
-            await context.Targets
-                .Where(t => t.TargetStatus == TargetStatus.Alive)
-                .Where(t => missionService.MeasureDistance(t, agent) < 200)
-                .ToListAsync();
+        public async Task<List<TargetModel>> GetAvailableTargestAsync(AgentModel agent) => 
+            await context.Targets.AnyAsync()
+            ? await context.Targets
+                   .Where(t => t.TargetStatus == TargetStatus.Alive)
+                   .Where(t => Math.Sqrt(Math.Pow(agent.XPosition - t.XPosition, 2)
+                    + Math.Pow(agent.YPosition - t.YPosition, 2)) < 200)
+                   .ToListAsync()
+            : [];
     }
 }

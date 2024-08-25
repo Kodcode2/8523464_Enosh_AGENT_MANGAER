@@ -60,7 +60,8 @@ namespace AgentRest.Service
             MissionModel? newMission = new()
             {
                 TargetId = target.Id,
-                AgentId = agent!.Id
+                AgentId = agent!.Id,
+                RemainingTime = await EvaluateRemainingTime(agent.Id, target.Id),
             };
             await context.Missions.AddAsync(newMission);
             await context.SaveChangesAsync();
@@ -118,15 +119,15 @@ namespace AgentRest.Service
             missions.ForEach(async mission => 
             {
                 await MoveAgentTowardsTheTarget(mission);
-                mission.RemainingTime = await EvaluateRemainingTime(mission);
+                mission.RemainingTime = await EvaluateRemainingTime(mission.AgentId, mission.TargetId);
             });
 
         }
 
-        private async Task<double> EvaluateRemainingTime(MissionModel mission)
+        private async Task<double> EvaluateRemainingTime(long agentId, long targetId)
         {
-            AgentModel? agent = await agentService.GetAgentByIdAsync(mission.AgentId);
-            TargetModel? target = await targetService.GetTargetByIdAsync(mission.TargetId);
+            AgentModel? agent = await agentService.GetAgentByIdAsync(agentId);
+            TargetModel? target = await targetService.GetTargetByIdAsync(targetId);
             return MeasureDistance(target!, agent!) / 5;
         }
     }

@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mossadexam\\mvc\\agentmvc\\agentmvc\\controllers\\missionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|solutionrelative:agentmvc\\controllers\\missionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mossadexam\\mvc\\agentmvc\\agentmvc\\viewmodels\\missionvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|solutionrelative:agentmvc\\viewmodels\\missionvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mossadexam\\mvc\\agentmvc\\agentmvc\\models\\missionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|solutionrelative:agentmvc\\models\\missionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mossadexam\\mvc\\agentmvc\\agentmvc\\models\\targetmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|solutionrelative:agentmvc\\models\\targetmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mossadexam\\mvc\\agentmvc\\agentmvc\\models\\agentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|solutionrelative:agentmvc\\models\\agentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|c:\\users\\israel fridless\\desktop\\kodcode 2\\c#\\mossadexam\\mvc\\agentmvc\\agentmvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A55D81B0-37F8-40EA-86DB-9E691037C418}|AgentMVC\\AgentMVC.csproj|solutionrelative:agentmvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 176,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MissionVM.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\ViewModels\\MissionVM.cs",
+              "RelativeDocumentMoniker": "AgentMVC\\ViewModels\\MissionVM.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\ViewModels\\MissionVM.cs",
+              "RelativeToolTip": "AgentMVC\\ViewModels\\MissionVM.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T15:49:40.262Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AgentModel.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Models\\AgentModel.cs",
+              "RelativeDocumentMoniker": "AgentMVC\\Models\\AgentModel.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Models\\AgentModel.cs",
+              "RelativeToolTip": "AgentMVC\\Models\\AgentModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T15:45:34.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TargetModel.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Models\\TargetModel.cs",
+              "RelativeDocumentMoniker": "AgentMVC\\Models\\TargetModel.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Models\\TargetModel.cs",
+              "RelativeToolTip": "AgentMVC\\Models\\TargetModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T15:45:15.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MissionModel.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Models\\MissionModel.cs",
+              "RelativeDocumentMoniker": "AgentMVC\\Models\\MissionModel.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Models\\MissionModel.cs",
+              "RelativeToolTip": "AgentMVC\\Models\\MissionModel.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAxwBQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T15:44:18.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Program.cs",
+              "RelativeDocumentMoniker": "AgentMVC\\Program.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Program.cs",
+              "RelativeToolTip": "AgentMVC\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T15:14:01.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MissionsController.cs",
+              "DocumentMoniker": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Controllers\\MissionsController.cs",
+              "RelativeDocumentMoniker": "AgentMVC\\Controllers\\MissionsController.cs",
+              "ToolTip": "C:\\Users\\Israel Fridless\\Desktop\\Kodcode 2\\C#\\MossadExam\\Mvc\\AgentMVC\\AgentMVC\\Controllers\\MissionsController.cs",
+              "RelativeToolTip": "AgentMVC\\Controllers\\MissionsController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T15:13:33.106Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

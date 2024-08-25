@@ -2,14 +2,14 @@
 
 namespace AgentRest.Models
 {
-    public class TargetModel
-    {
-        public enum Status
+        public enum TargetStatus
         {
             Alive,
             Hunted,
             Dead
         }
+    public class TargetModel
+    {
         public long Id { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 3)]
@@ -22,6 +22,6 @@ namespace AgentRest.Models
         public required string Role { get; set; }
         public int XPosition { get; set; } = -1;
         public int YPosition { get; set; } = -1;
-        public Status TargetStatus { get; set; } = Status.Alive;
+        public TargetStatus TargetStatus { get; set; } = TargetStatus.Alive;
     }
 }

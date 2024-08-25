@@ -8,8 +8,8 @@ namespace AgentRest.Service
 {
     public class TargetService(ApplicationDbContext context, IServiceProvider serviceProvider) : ITargetService
     {
-        private IAgentService agentService = serviceProvider.GetRequiredService<IAgentService>();
-        private IMissionService missionService = serviceProvider.GetRequiredService<IMissionService>();
+        private IAgentService agentService => serviceProvider.GetRequiredService<IAgentService>();
+        private IMissionService missionService => serviceProvider.GetRequiredService<IMissionService>();
 
         private readonly Dictionary<string, (int, int)> Direction = new()
         {
@@ -31,11 +31,14 @@ namespace AgentRest.Service
                 Image = targetDto.Photo_url,
                 Role = targetDto.Position
             };
+            if (await context.Targets.AnyAsync(t => t.Name == targetModel.Name && t.Image == targetModel.Image && t.Role == targetModel.Role))
+            {
+                throw new Exception($"agent by the name {targetModel.Name} with the photo {targetModel.Image} and position {targetModel.Role} is already exists");
+            }
             await context.Targets.AddAsync(targetModel);
             await context.SaveChangesAsync();
-            TargetModel? target = await context.Targets.FindAsync(targetModel)
-                ?? throw new Exception("Something went wrong");
-            return new() { Id = target.Id};
+            TargetModel? target = await context.Targets.FindAsync(targetModel);
+            return new() { Id = target!.Id};
         }
 
         public async Task DeleteTargetAsync(long targetId)
@@ -69,7 +72,7 @@ namespace AgentRest.Service
 
         public bool IsInvalidPosition(int x, int y) => (y > 1000 || x > 1000 || y < 0 || x < 0);
 
-        public async Task<TargetModel> UpdateTargetLocationAsync(long targetId, DirectionDto directionDto)
+        public async Task<TargetModel> MoveTargetAsync(long targetId, DirectionDto directionDto)
         {
             TargetModel? target = await GetTargetByIdAsync(targetId);
             var (x, y) = Direction[directionDto.Direction];
@@ -104,10 +107,10 @@ namespace AgentRest.Service
             return target;
         }
 
-        public async Task<TargetModel?> GetAvailableTargetAsync(AgentModel agent) =>
+        public async Task<List<TargetModel>> GetAvailableTargestAsync(AgentModel agent) =>
             await context.Targets
-                .Where(t => t.TargetStatus == TargetModel.Status.Alive)
+                .Where(t => t.TargetStatus == TargetStatus.Alive)
                 .Where(t => missionService.MeasureDistance(t, agent) < 200)
-                .FirstOrDefaultAsync();
+                .ToListAsync();
     }
 }

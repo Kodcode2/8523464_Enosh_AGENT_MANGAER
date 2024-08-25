@@ -2,13 +2,13 @@
 
 namespace AgentRest.Models
 {
-    public class AgentModel
-    {
-        public enum Status
+        public enum AgentStatus
         {
             Active,
             InActive
         }
+    public class AgentModel
+    {
         public long Id { get; set; }
         [Required]
         [StringLength(100)]
@@ -18,6 +18,6 @@ namespace AgentRest.Models
         public required string Image { get; set; }
         public int XPosition { get; set; } = -1;
         public int YPosition { get; set; } = -1;
-        public Status AgentStatus { get; set; } = Status.InActive;
+        public AgentStatus AgentStatus { get; set; } = AgentStatus.InActive;
     }
 }

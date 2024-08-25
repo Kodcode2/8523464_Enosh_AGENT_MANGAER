@@ -1,9 +1,9 @@
 ﻿namespace AgentRest.Models
 {
-    public enum Status
+    public enum MissionStatus
     {
         Propose,
-        Active,
+        Assigned,
         Ended
     }
     public class MissionModel
@@ -15,6 +15,6 @@
         public TargetModel? Target { get; set; }
         public double RemainingTime { get; set; }
         public double ExecutionTime { get; set; }
-        public Status MissionStatus { get; set; } = Status.Propose;
+        public MissionStatus MissionStatus { get; set; } = MissionStatus.Propose;
     }
 }

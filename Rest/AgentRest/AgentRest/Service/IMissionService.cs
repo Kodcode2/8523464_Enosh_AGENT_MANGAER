@@ -15,5 +15,6 @@ namespace AgentRest.Service
         Task<MissionModel> EndMissionAsync(long missionId);
         Task DeleteMissionByIdAsync(long missionId);
         double MeasureDistance(TargetModel target, AgentModel agent);
+        Task UpdateMissionsAsync();
     }
 }

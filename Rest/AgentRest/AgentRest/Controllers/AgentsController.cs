@@ -1,5 +1,5 @@
-﻿using AgentRest.Models;
-using AgentRest.Dto;
+﻿using AgentRest.Dto;
+using AgentRest.Models;
 using AgentRest.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,16 +8,16 @@ namespace AgentRest.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TargetsController(ITargetService targetService) : ControllerBase
+    public class AgentsController(IAgentService agentService) : ControllerBase
     {
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IdDto>> CreateTarget([FromBody] TargetDto targetDto)
+        public async Task<ActionResult<IdDto>> CreateAgent([FromBody] AgentDto agentDto)
         {
             try
             {
-                return Ok(await targetService.CreateTargetAsync(targetDto));
+                return Ok(await agentService.CreateAgentAsync(agentDto));
             }
             catch (Exception ex)
             {
@@ -28,11 +28,11 @@ namespace AgentRest.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<TargetModel>>> GetAllTargets()
+        public async Task<ActionResult<List<AgentModel>>> GetAllAgents()
         {
             try
             {
-                return Ok(await targetService.GetAllTargetsAsync());
+                return Ok(await agentService.GetAllAgentsAsync());
             }
             catch (Exception ex)
             {
@@ -40,14 +40,15 @@ namespace AgentRest.Controllers
             }
 
         }
+
         [HttpPut("{id}/pin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PinTarget(long id, [FromBody] LocationDto locationDto)
+        public async Task<ActionResult> PinAgent(long id, [FromBody] LocationDto locationDto)
         {
             try
             {
-                return Ok(await targetService.PinTargetAsync(id, locationDto));
+                return Ok(await agentService.PinAgentAsync(id, locationDto));
             }
             catch (Exception ex)
             {
@@ -58,11 +59,11 @@ namespace AgentRest.Controllers
         [HttpPut("{id}/move")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> MoveTarget(long id, [FromBody] DirectionDto directionDto)
+        public async Task<ActionResult> MoveAgengt(long id, [FromBody] DirectionDto directionDto)
         {
             try
             {
-                return Ok(await targetService.MoveTargetAsync(id, directionDto));
+                return Ok(await agentService.MoveAgentAsync(id, directionDto));
             }
             catch (Exception ex)
             {

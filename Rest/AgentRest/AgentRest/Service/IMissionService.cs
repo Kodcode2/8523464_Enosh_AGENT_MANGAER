@@ -6,7 +6,7 @@ namespace AgentRest.Service
 {
     public interface IMissionService
     {
-        Task<MissionModel?> CreateMissionAsync(TargetModel target, AgentModel agent);
+        MissionModel CreateMissionModel(TargetModel target, AgentModel agent);
         Task<List<MissionModel>> GetMissionsAsync();
         Task<MissionModel?> GetMissionByIdAsync(long id);
         Task<MissionModel> ActivateMissionAsync(long missionId);

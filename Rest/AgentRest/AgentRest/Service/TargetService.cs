@@ -66,8 +66,9 @@ namespace AgentRest.Service
             List<AgentModel> closestAgents = await agentService.GetAvailableAgentsAsync(target);
             if (closestAgents.Count > 0)
             {
-                var createMissionsTasks = closestAgents.Select(agent => missionService.CreateMissionAsync(target, agent));
-                await Task.WhenAll(createMissionsTasks);
+                var newMissions = closestAgents.Select(agent => missionService.CreateMissionModel(target, agent)).ToList();
+                await context.Missions.AddRangeAsync(newMissions);
+                await context.SaveChangesAsync();
             }
             return target;
         }
@@ -82,13 +83,16 @@ namespace AgentRest.Service
             var closestAgents = await agentService.GetAvailableAgentsAsync(target) ?? [];
             if (closestAgents.Count != 0)
             {
-                var missions = closestAgents.Select((a) => new MissionModel() {  AgentId = a.Id, TargetId = targetId});
+                var missions = closestAgents.Select((a) => new MissionModel() {  AgentId = a.Id, TargetId = targetId, RemainingTime = EvaluateRemainingTime(target, a)});
                 await context.Missions.AddRangeAsync(missions);
                 await context.SaveChangesAsync();
                 
             }
             return target;
         }
+
+        private double EvaluateRemainingTime(TargetModel target, AgentModel a) =>
+            missionService.MeasureDistance(target, a) / 5;
 
         public async Task<List<TargetModel>> GetAvailableTargestAsync(AgentModel agent) => 
             await context.Targets.AnyAsync()

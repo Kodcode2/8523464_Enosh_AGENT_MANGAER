@@ -47,7 +47,7 @@ namespace AgentMVC.Service
             var agents = await agentService.GetAllAgentsAsync();
             AgentModel? agent = agents.FirstOrDefault(a => a.Id == mission.AgentId);
             TargetModel? target = targets.FirstOrDefault(t => t.Id == mission.TargetId);
-            if (target == null || agent == null) { throw new Exception("Could not found either the agent or the target"); }
+            if (target == null || agent == null) { return new() { }; }
             double distance = MeasureDistance(target, agent);
             MissionVM missionVM = new()
             {

@@ -41,23 +41,22 @@ namespace AgentRest.Service
             agent!.AgentStatus = AgentStatus.Active;
             List<MissionModel> toCancel = context.Missions
                 .Where(m => m.MissionStatus == MissionStatus.Propose)
-                .Where(m => m.TargetId == target!.Id || m.AgentId == agent.Id)
+                .Where(m => m.Id != missionId && (m.TargetId == target!.Id || m.AgentId == agent.Id))
                 .ToList();
             context.Missions.RemoveRange(toCancel);
             await context.SaveChangesAsync();
             return mission;
         }
 
-        public async Task<MissionModel?> CreateMissionAsync(TargetModel target, AgentModel agent)
+       
+        public MissionModel CreateMissionModel(TargetModel target, AgentModel agent)
         {
-            MissionModel? newMission = new()
+            MissionModel newMission = new()
             {
                 TargetId = target.Id,
                 AgentId = agent!.Id,
                 RemainingTime = MeasureDistance(target, agent) / 5,
             };
-            await context.Missions.AddAsync(newMission);
-            await context.SaveChangesAsync();
             return newMission;
         }
 

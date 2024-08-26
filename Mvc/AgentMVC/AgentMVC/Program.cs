@@ -1,3 +1,5 @@
+using AgentMVC.Service;
+
 namespace AgentMVC
 {
     public class Program
@@ -10,6 +12,12 @@ namespace AgentMVC
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddHttpClient();
+
+            builder.Services.AddScoped<IMissionService, MissionService>();
+
+            builder.Services.AddScoped<ITargetSevice, TargetService>();
+
+            builder.Services.AddScoped<IAgentService, AgentService>();
 
             var app = builder.Build();
 

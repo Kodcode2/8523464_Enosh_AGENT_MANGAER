@@ -1,0 +1,67 @@
+﻿@model IEnumerable<AgentMVC.Models.TargetModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Targets</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.XPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TargetStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.XPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TargetStatus)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

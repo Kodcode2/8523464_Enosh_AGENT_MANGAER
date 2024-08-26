@@ -59,11 +59,11 @@ namespace AgentRest.Service
                 throw new Exception($"The corresponds coordinats: x:{agent.XPosition}, y:{agent.YPosition} are off the map borders");
             }
             await context.SaveChangesAsync();
-
             List<TargetModel> closestTargets = await targetService.GetAvailableTargestAsync(agent);
             if (closestTargets.Count > 0)
             {
-                closestTargets.ForEach(target => { missionService.CreateMissionAsync(target, agent); });
+                var createMissionsTasks = closestTargets.Select(target => missionService.CreateMissionAsync(target, agent));
+                await Task.WhenAll(createMissionsTasks);
             }
             return agent;
         }

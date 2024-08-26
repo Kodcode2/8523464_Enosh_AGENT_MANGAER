@@ -1,0 +1,79 @@
+﻿@model IEnumerable<AgentMVC.ViewModels.AgentVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Agents</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NickName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.XPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RemainingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.killAmount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NickName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.XPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mission)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemainingTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.killAmount)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

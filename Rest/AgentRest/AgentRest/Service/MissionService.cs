@@ -22,11 +22,19 @@ namespace AgentRest.Service
             ? await context.Missions.ToListAsync()
             : [];
 
-        public async Task<MissionModel?> GetMissionByIdAsync(long id) =>
-            await context.Missions.FirstOrDefaultAsync(m => m.Id == id)
-            ?? throw new Exception("Could not found the mission by the given id");
+        public async Task<MissionModel?> GetMissionByIdAsync(long id)
+        {
+            var mission = await context.Missions.Where(m => m.Id == id).FirstOrDefaultAsync();
 
-        public async Task<MissionModel> ActivateMissionAsync(long missionId)
+            if (mission == null)
+            {
+                throw new Exception($"Could not find the mission by the given id {id}");
+            }
+
+            return mission;
+        }
+
+            public async Task<MissionModel> ActivateMissionAsync(long missionId)
         {
             MissionModel? mission = await GetMissionByIdAsync(missionId);
             AgentModel? agent = await agentService.GetAgentByIdAsync(mission!.AgentId);
@@ -61,7 +69,7 @@ namespace AgentRest.Service
             {
                 TargetId = target.Id,
                 AgentId = agent!.Id,
-                RemainingTime = await EvaluateRemainingTime(agent.Id, target.Id),
+                RemainingTime = MeasureDistance(target, agent) / 5,
             };
             await context.Missions.AddAsync(newMission);
             await context.SaveChangesAsync();

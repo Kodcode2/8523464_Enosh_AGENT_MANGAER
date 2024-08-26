@@ -1,18 +1,21 @@
 ﻿using AgentMVC.Models;
 using AgentMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using System.Text.Json;
 
 namespace AgentMVC.Service
 {
     public class MissionService(
         IHttpClientFactory clientFactory,
-        ITargetSevice targetSevice,
-        IAgentService agentService
+        IServiceProvider serviceProvider
         ) : IMissionService
     {
+        private ITargetSevice targetService => serviceProvider.GetRequiredService<ITargetSevice>();
+        private IMissionService missionService => serviceProvider.GetRequiredService<IMissionService>();
+        private IAgentService agentService => serviceProvider.GetRequiredService<IAgentService>();
         private readonly string baseUrl = "https://localhost:7121/Missions";
-        public async Task<List<MissionVM>> GetAllMissions()
+        public async Task<List<MissionModel>> GetAllMissions()
         {
             var httpClient = clientFactory.CreateClient();
             var result = await httpClient.GetAsync($"{baseUrl}");
@@ -21,11 +24,17 @@ namespace AgentMVC.Service
                 var content = await result.Content.ReadAsStringAsync();
                 List<MissionModel>? missions = JsonSerializer.Deserialize<List<MissionModel>>(content,
                     new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? [];
-                var missionTasks = missions.Select(ConvertMissionToVM).ToList();
-                var missionVMs = await Task.WhenAll(missionTasks);
-                return [.. missionVMs];
+                return missions;
             }
             return [];
+        }
+
+        public async Task<List<MissionVM>> GetMissionVMs()
+        {
+            var missionModels = await GetAllMissions();
+            var missionTasks = missionModels.Select(ConvertMissionToVM).ToList();
+            var missionVMs = await Task.WhenAll(missionTasks);
+            return [.. missionVMs];
         }
         
         private double MeasureDistance(TargetModel target, AgentModel agent) =>
@@ -34,7 +43,7 @@ namespace AgentMVC.Service
 
         private async Task<MissionVM> ConvertMissionToVM(MissionModel mission)
         {
-            var targets = await targetSevice.GetAllTargetsAsync();
+            var targets = await targetService.GetAllTargetsAsync();
             var agents = await agentService.GetAllAgentsAsync();
             AgentModel? agent = agents.FirstOrDefault(a => a.Id == mission.AgentId);
             TargetModel? target = targets.FirstOrDefault(t => t.Id == mission.TargetId);
@@ -54,6 +63,23 @@ namespace AgentMVC.Service
                 RemainingTime = distance / 5,
             };
             return missionVM;
+        }
+
+        public async Task AssignMissionAsync(long id)
+        {
+            var httpClient = clientFactory.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{baseUrl}/{id}/assign");
+            var result = await httpClient.SendAsync(request);
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not assign the mission");
+            }
+        }
+
+        public async Task<MissionVM?> GetMissionVMById(long id)
+        {
+            var missions = await GetMissionVMs();
+            return missions.FirstOrDefault(m => m.Id == id); 
         }
     }
 }

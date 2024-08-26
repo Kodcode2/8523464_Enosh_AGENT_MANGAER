@@ -5,6 +5,9 @@ namespace AgentMVC.Service
 {
     public interface IMissionService
     {
-        Task<List<MissionVM>> GetAllMissions();
+        Task AssignMissionAsync(long id);
+        Task<List<MissionModel>> GetAllMissions();
+        Task<List<MissionVM>> GetMissionVMs();
+        Task<MissionVM?> GetMissionVMById(long id);
     }
 }

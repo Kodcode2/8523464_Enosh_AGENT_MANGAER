@@ -39,8 +39,8 @@ namespace AgentRest.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateMissionStatus(long id)
+        [HttpPut("{id}/assign")]
+        public async Task<ActionResult> AssignMission(long id)
         {
             try
             {

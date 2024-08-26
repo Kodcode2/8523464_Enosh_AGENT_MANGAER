@@ -69,7 +69,7 @@ namespace AgentRest.Service
             return target;
         }
 
-        public bool IsInvalidPosition(int x, int y) => (y > 1000 || x > 1000 || y < 0 || x < 0);
+        private bool IsInvalidPosition(int x, int y) => (y > 1000 || x > 1000 || y < 0 || x < 0);
 
         public async Task<TargetModel> MoveTargetAsync(long targetId, DirectionDto directionDto)
         {
@@ -86,7 +86,8 @@ namespace AgentRest.Service
             List<AgentModel> closestAgents = await agentService.GetAvailableAgentsAsync(target);
             if (closestAgents.Count > 0)
             {
-                closestAgents.ForEach(agent => { missionService.CreateMissionAsync(target, agent); });
+                var createMissionsTasks = closestAgents.Select(agent => missionService.CreateMissionAsync(target, agent));
+                await Task.WhenAll(createMissionsTasks);
             }
             return target;
         }

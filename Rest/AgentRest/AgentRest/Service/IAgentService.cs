@@ -10,7 +10,6 @@ namespace AgentRest.Service
         Task<AgentModel> PinAgentAsync(long agentId, LocationDto locationDto);
         Task<AgentModel> MoveAgentAsync(long agentId, DirectionDto directionDto);
         Task<List<AgentModel>> GetAvailableAgentsAsync(TargetModel target);
-        Task<bool> IsAvailableAgent(long agentId);
         Task<List<AgentModel>> GetAllAgentsAsync();
     }
 }

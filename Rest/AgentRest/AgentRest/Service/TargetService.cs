@@ -40,13 +40,6 @@ namespace AgentRest.Service
             return new() { Id = target!.Id };
         }
 
-        public async Task DeleteTargetAsync(long targetId)
-        {
-            TargetModel? target = await GetTargetByIdAsync(targetId);
-            context.Targets.Remove(target!);
-            await context.SaveChangesAsync();
-        }
-
         public async Task<List<TargetModel>> GetAllTargetsAsync() =>
             await context.Targets.AnyAsync()
             ? await context.Targets.ToListAsync()
@@ -55,19 +48,6 @@ namespace AgentRest.Service
         public async Task<TargetModel?> GetTargetByIdAsync(long id) =>
             await context.Targets.FirstOrDefaultAsync(t => t.Id == id)
             ?? throw new Exception("Could not found the target by the given id");
-
-        public async Task<TargetModel> UpdateTargetAsync(long targetId, TargetModel targetModel)
-        {
-            TargetModel? target = await GetTargetByIdAsync(targetId);
-            target!.Name = targetModel.Name;
-            target!.Image = targetModel.Image;
-            target.Role = targetModel.Role;
-            target.XPosition = targetModel.XPosition;
-            target.YPosition = targetModel.YPosition;
-            target.TargetStatus = targetModel.TargetStatus;
-            await context.SaveChangesAsync();
-            return target;
-        }
 
         private bool IsInvalidPosition(int x, int y) => (y > 1000 || x > 1000 || y < 0 || x < 0);
 

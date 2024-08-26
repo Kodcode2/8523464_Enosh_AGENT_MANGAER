@@ -98,12 +98,6 @@ namespace AgentRest.Service
                 .ToListAsync()
             : [];
 
-        public async Task<bool> IsAvailableAgent(long agentId)
-        {
-            AgentModel? agent = await GetAgentByIdAsync(agentId);
-            return agent!.AgentStatus == AgentStatus.InActive;
-        }
-
         public async Task<List<AgentModel>> GetAllAgentsAsync() =>
             await context.Agents
             .Where(a => a.AgentStatus == AgentStatus.InActive)

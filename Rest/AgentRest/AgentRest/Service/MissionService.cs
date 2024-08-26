@@ -9,13 +9,6 @@ namespace AgentRest.Service
     {
         private IAgentService agentService => serviceProvider.GetRequiredService<IAgentService>();
         private ITargetService targetService => serviceProvider.GetRequiredService<ITargetService>();
-        public async Task<MissionModel?> GetMissionByAgentIdAsync(long agentId) =>
-            await context.Missions.FirstOrDefaultAsync(m => m.AgentId == agentId) 
-            ?? throw new Exception("Could not find the mission by the given agentId");
-
-        public async Task<MissionModel?> GetMissionByTargetIdAsync(long targetId) =>
-            await context.Missions.FirstOrDefaultAsync(m => m.TargetId == targetId)
-            ?? throw new Exception("Could not find the mission by the given targetId");
 
         public async Task<List<MissionModel>> GetMissionsAsync() =>
            await context.Missions.AnyAsync()
@@ -34,15 +27,15 @@ namespace AgentRest.Service
             return mission;
         }
 
-            public async Task<MissionModel> ActivateMissionAsync(long missionId)
+        public async Task<MissionModel> ActivateMissionAsync(long missionId)
         {
             MissionModel? mission = await GetMissionByIdAsync(missionId);
             AgentModel? agent = await agentService.GetAgentByIdAsync(mission!.AgentId);
             TargetModel? target = await targetService.GetTargetByIdAsync(mission.TargetId);
-            if (MeasureDistance(target!, agent!) > 200) 
-            { 
+            if (MeasureDistance(target!, agent!) > 200)
+            {
                 context.Missions.Remove(mission);
-                throw new Exception("The distance between the agent and the target is now standing over 200 km"); 
+                throw new Exception("The distance between the agent and the target is now standing over 200 km");
             }
             mission!.MissionStatus = MissionStatus.Assigned;
             agent!.AgentStatus = AgentStatus.Active;
@@ -51,14 +44,6 @@ namespace AgentRest.Service
                 .Where(m => m.TargetId == target!.Id || m.AgentId == agent.Id)
                 .ToList();
             context.Missions.RemoveRange(toCancel);
-            await context.SaveChangesAsync();
-            return mission;
-        }
-
-        public async Task<MissionModel> EndMissionAsync(long missionId)
-        {
-            MissionModel? mission = await GetMissionByIdAsync(missionId);
-            mission!.MissionStatus = MissionStatus.Ended;
             await context.SaveChangesAsync();
             return mission;
         }
@@ -124,7 +109,7 @@ namespace AgentRest.Service
             List<MissionModel> missions = await context.Missions
                 .Where(m => m.MissionStatus == MissionStatus.Assigned)
                 .ToListAsync();
-            missions.ForEach(async mission => 
+            missions.ForEach(async mission =>
             {
                 await MoveAgentTowardsTheTarget(mission);
                 mission.RemainingTime = await EvaluateRemainingTime(mission.AgentId, mission.TargetId);

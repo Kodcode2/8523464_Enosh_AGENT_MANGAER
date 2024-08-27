@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AgentMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eaa5b9a2898e62b6b7bbdb315a7b175ef2bf561b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df8f291d042749478c80dff8600918e73c8e64c7")]
 [assembly: System.Reflection.AssemblyProductAttribute("AgentMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AgentMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

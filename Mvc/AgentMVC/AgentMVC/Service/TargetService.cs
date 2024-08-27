@@ -6,6 +6,8 @@ namespace AgentMVC.Service
     public class TargetService(IHttpClientFactory clientFactory) : ITargetSevice
     {
         private readonly string baseUrl = "https://localhost:7121/Targets";
+
+        // Fetches all targets from the API
         public async Task<List<TargetModel>> GetAllTargetsAsync()
         {
             var httpClient = clientFactory.CreateClient();
@@ -18,7 +20,7 @@ namespace AgentMVC.Service
 
                 return targets;
             }
-            return new();
+            return [];
         }
     }
 }

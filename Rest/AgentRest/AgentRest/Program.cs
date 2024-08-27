@@ -1,4 +1,4 @@
-
+using Microsoft.EntityFrameworkCore;
 using AgentRest.Data;
 using AgentRest.Service;
 
@@ -17,7 +17,11 @@ namespace AgentRest
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<ApplicationDbContext>();
+            builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            }, ServiceLifetime.Scoped);
 
             builder.Services.AddScoped<ITargetService, TargetService>();
 

@@ -9,6 +9,7 @@ namespace AgentMVC.Service
         private IMissionService missionService => serviceProvider.GetRequiredService<IMissionService>();
         private readonly string baseUrl = "https://localhost:7121/Agents";
 
+        // Fetches all agents from the API
         public async Task<List<AgentModel>> GetAllAgentsAsync()
         {
             var httpClient = clientFactory.CreateClient();
@@ -24,6 +25,7 @@ namespace AgentMVC.Service
             return [];
         }
 
+        // Converts agent models to view models
         public async Task<List<AgentVM>> GetAgentVMs()
         {
             var agentModels = await GetAllAgentsAsync();
@@ -32,11 +34,23 @@ namespace AgentMVC.Service
             return [.. agentVMs];
         }
 
+        // Converts a single agent model to view model
         private async Task<AgentVM> ConvertAgentToVM(AgentModel agent)
         {
             var missions = await missionService.GetAllMissions();
-            var activeMission = missions.Where(m => m.AgentId == agent.Id).Where(m => m.MissionStatus == MissionStatus.Assigned).FirstOrDefault();
-            int kills = missions.Where(m => m.AgentId == agent.Id).Where(m => m.MissionStatus == MissionStatus.Ended).Count();
+
+            // Find the active mission for this agent
+            var activeMission = missions
+                .Where(m => m.AgentId == agent.Id)
+                .Where(m => m.MissionStatus == MissionStatus.Assigned)
+                .FirstOrDefault();
+
+            // Count completed missions (kills) for this agent
+            int kills = missions
+                .Where(m => m.AgentId == agent.Id)
+                .Where(m => m.MissionStatus == MissionStatus.Ended)
+                .Count();
+
             AgentVM? agentVM = new()
             {
                 Id = agent.Id,

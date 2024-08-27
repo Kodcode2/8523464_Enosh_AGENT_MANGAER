@@ -11,10 +11,14 @@ namespace AgentMVC.Service
         IServiceProvider serviceProvider
         ) : IMissionService
     {
+
+        // Lazy-loaded services
         private ITargetSevice targetService => serviceProvider.GetRequiredService<ITargetSevice>();
         private IMissionService missionService => serviceProvider.GetRequiredService<IMissionService>();
         private IAgentService agentService => serviceProvider.GetRequiredService<IAgentService>();
         private readonly string baseUrl = "https://localhost:7121/Missions";
+
+        // Fetches all missions from the API
         public async Task<List<MissionModel>> GetAllMissions()
         {
             var httpClient = clientFactory.CreateClient();
@@ -29,6 +33,7 @@ namespace AgentMVC.Service
             return [];
         }
 
+        // Converts mission models to view models
         public async Task<List<MissionVM>> GetMissionVMs()
         {
             var missionModels = await GetAllMissions();
@@ -36,11 +41,13 @@ namespace AgentMVC.Service
             var missionVMs = await Task.WhenAll(missionTasks);
             return [.. missionVMs];
         }
-        
+
+        // Calculates distance between target and agent
         private double MeasureDistance(TargetModel target, AgentModel agent) =>
             Math.Sqrt(Math.Pow(target.XPosition - agent.XPosition, 2)
                     + Math.Pow(target.YPosition - agent.YPosition, 2));
 
+        // Converts a single mission model to view model
         private async Task<MissionVM> ConvertMissionToVM(MissionModel mission)
         {
             var targets = await targetService.GetAllTargetsAsync();
@@ -65,6 +72,7 @@ namespace AgentMVC.Service
             return missionVM;
         }
 
+        // Assigns a mission via API call
         public async Task AssignMissionAsync(long id)
         {
             var httpClient = clientFactory.CreateClient();
@@ -76,6 +84,7 @@ namespace AgentMVC.Service
             }
         }
 
+        // Retrieves a specific mission view model by ID
         public async Task<MissionVM?> GetMissionVMById(long id)
         {
             var missions = await GetMissionVMs();

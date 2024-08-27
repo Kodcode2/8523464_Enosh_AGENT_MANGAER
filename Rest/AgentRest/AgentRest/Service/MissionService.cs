@@ -5,16 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgentRest.Service
 {
-    public class MissionService(ApplicationDbContext context, IServiceProvider serviceProvider) : IMissionService
+    public class MissionService(IServiceProvider serviceProvider) : IMissionService
     {
         private IAgentService agentService => serviceProvider.GetRequiredService<IAgentService>();
         private ITargetService targetService => serviceProvider.GetRequiredService<ITargetService>();
+        private ApplicationDbContext context => DbContextFactory.CreateDbContext(serviceProvider);
 
+        // Method to retrieve all missions asynchronously
         public async Task<List<MissionModel>> GetMissionsAsync() =>
            await context.Missions.AnyAsync()
             ? await context.Missions.ToListAsync()
             : [];
 
+        // Retrieve a mission by its ID asynchronously
         public async Task<MissionModel?> GetMissionByIdAsync(long id)
         {
             var mission = await context.Missions.Where(m => m.Id == id).FirstOrDefaultAsync();
@@ -27,6 +30,7 @@ namespace AgentRest.Service
             return mission;
         }
 
+        // Activate a mission by ID asynchronously
         public async Task<MissionModel> ActivateMissionAsync(long missionId)
         {
             MissionModel? mission = await GetMissionByIdAsync(missionId);
@@ -48,7 +52,7 @@ namespace AgentRest.Service
             return mission;
         }
 
-       
+        // Create a new MissionModel
         public MissionModel CreateMissionModel(TargetModel target, AgentModel agent)
         {
             MissionModel newMission = new()
@@ -60,49 +64,55 @@ namespace AgentRest.Service
             return newMission;
         }
 
+        // Calculate distance between the agent and the target
         public double MeasureDistance(TargetModel target, AgentModel agent) =>
             Math.Sqrt(Math.Pow(target.XPosition - agent.XPosition, 2)
                     + Math.Pow(target.YPosition - agent.YPosition, 2));
 
-        public async Task DeleteMissionByIdAsync(long missionId)
-        {
-            MissionModel? mission = await GetMissionByIdAsync(missionId);
-            context.Missions.Remove(mission!);
-            await context.SaveChangesAsync();
-        }
-
+        // Move the agent towards the target asynchronously
         private async Task MoveAgentTowardsTheTarget(MissionModel mission)
         {
             AgentModel? agent = await agentService.GetAgentByIdAsync(mission.AgentId);
             TargetModel? target = await targetService.GetTargetByIdAsync(mission.TargetId);
             bool isAgentLeftToTarget = agent!.XPosition < target!.XPosition;
+            bool isAgentRightToTarget = agent!.XPosition > target!.XPosition;
             bool isAgentUnderTarget = agent.YPosition < target.YPosition;
+            bool isAgentAboveTarget = agent.YPosition > target.YPosition;
             if (isAgentLeftToTarget)
             {
                 agent.XPosition++;
+            }
+            if (isAgentRightToTarget)
+            {
+                agent.XPosition--;
             }
             if (isAgentUnderTarget)
             {
                 agent.YPosition++;
             }
-            if (!(isAgentLeftToTarget && isAgentUnderTarget))
+            if (isAgentAboveTarget)
+            {
+                agent.YPosition--;
+            }
+            if (!(isAgentLeftToTarget && isAgentUnderTarget && isAgentAboveTarget && isAgentRightToTarget))
             {
                 await Kill(mission, agent, target);
             }
             await context.SaveChangesAsync();
         }
 
+        // Kill the target and update statuses
         private async Task Kill(MissionModel mission, AgentModel agent, TargetModel target)
         {
             target.TargetStatus = TargetStatus.Dead;
             agent.AgentStatus = AgentStatus.InActive;
             mission.MissionStatus = MissionStatus.Ended;
-            context.Targets.Remove(target);
-            DateTime dateTime = DateTime.Now;
-            mission.ExecutionTime = double.Parse(dateTime.ToString());
+            DateTime dateTime = DateTime.UtcNow;
+            mission.ExecutionTime = (dateTime - new DateTime(1970, 1, 1)).TotalSeconds;
             await context.SaveChangesAsync();
         }
 
+        // Update all assigned missions asynchronously
         public async Task UpdateMissionsAsync()
         {
             List<MissionModel> missions = await context.Missions
@@ -116,6 +126,7 @@ namespace AgentRest.Service
 
         }
 
+        // Calculate remaining time for the agent to reach the target
         private async Task<double> EvaluateRemainingTime(long agentId, long targetId)
         {
             AgentModel? agent = await agentService.GetAgentByIdAsync(agentId);

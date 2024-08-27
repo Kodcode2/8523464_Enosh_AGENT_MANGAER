@@ -104,15 +104,5 @@ namespace AgentRest.Service
         // Evaluate remaining time for agent to reach target
         private double EvaluateRemainingTime(TargetModel target, AgentModel a) =>
             missionService.MeasureDistance(target, a) / 5;
-
-        // Get available targets for an agent asynchronously
-        public async Task<List<TargetModel>> GetAvailableTargestAsync(AgentModel agent) => 
-            await context.Targets.AnyAsync()
-            ? await context.Targets
-                   .Where(t => t.TargetStatus == TargetStatus.Alive)
-                   .Where(t => Math.Sqrt(Math.Pow(agent.XPosition - t.XPosition, 2)
-                    + Math.Pow(agent.YPosition - t.YPosition, 2)) < 200)
-                   .ToListAsync()
-            : [];
     }
 }

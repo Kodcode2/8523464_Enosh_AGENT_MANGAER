@@ -2,13 +2,12 @@
 using AgentRest.Dto;
 using AgentRest.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace AgentRest.Service
 {
     public class MissionService(IServiceProvider serviceProvider) : IMissionService
     {
-        private IAgentService agentService => serviceProvider.GetRequiredService<IAgentService>();
-        private ITargetService targetService => serviceProvider.GetRequiredService<ITargetService>();
         private ApplicationDbContext context => DbContextFactory.CreateDbContext(serviceProvider);
 
         // Method to retrieve all missions asynchronously
@@ -33,9 +32,10 @@ namespace AgentRest.Service
         // Activate a mission by ID asynchronously
         public async Task<MissionModel> ActivateMissionAsync(long missionId)
         {
-            MissionModel? mission = await GetMissionByIdAsync(missionId);
-            AgentModel? agent = await agentService.GetAgentByIdAsync(mission!.AgentId);
-            TargetModel? target = await targetService.GetTargetByIdAsync(mission.TargetId);
+            MissionModel? mission = await GetMissionByIdAsync(missionId) 
+                ?? throw new Exception($"Could not found the mission by the given id {missionId}");
+            AgentModel? agent = await context.Agents.FirstOrDefaultAsync(a => a.Id == mission.AgentId);
+            TargetModel? target = await context.Targets.FirstOrDefaultAsync(t => t.Id == mission.TargetId);
             if (MeasureDistance(target!, agent!) > 200)
             {
                 context.Missions.Remove(mission);
@@ -72,8 +72,8 @@ namespace AgentRest.Service
         // Move the agent towards the target asynchronously
         private async Task MoveAgentTowardsTheTarget(MissionModel mission)
         {
-            AgentModel? agent = await agentService.GetAgentByIdAsync(mission.AgentId);
-            TargetModel? target = await targetService.GetTargetByIdAsync(mission.TargetId);
+            AgentModel? agent = await context.Agents.FirstOrDefaultAsync(a => a.Id == mission.AgentId);
+            TargetModel? target = await context.Targets.FirstOrDefaultAsync(t => t.Id == mission.TargetId);
             bool isAgentLeftToTarget = agent!.XPosition < target!.XPosition;
             bool isAgentRightToTarget = agent!.XPosition > target!.XPosition;
             bool isAgentUnderTarget = agent.YPosition < target.YPosition;
@@ -129,8 +129,8 @@ namespace AgentRest.Service
         // Calculate remaining time for the agent to reach the target
         private async Task<double> EvaluateRemainingTime(long agentId, long targetId)
         {
-            AgentModel? agent = await agentService.GetAgentByIdAsync(agentId);
-            TargetModel? target = await targetService.GetTargetByIdAsync(targetId);
+            AgentModel? agent = await context.Agents.FirstOrDefaultAsync(a => a.Id == agentId);
+            TargetModel? target = await context.Targets.FirstOrDefaultAsync(t => t.Id == targetId);
             return MeasureDistance(target!, agent!) / 5;
         }
     }

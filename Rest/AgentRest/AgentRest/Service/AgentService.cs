@@ -8,7 +8,6 @@ namespace AgentRest.Service
 {
     public class AgentService(IServiceProvider serviceProvider) : IAgentService
     {
-        private ITargetService targetService => serviceProvider.GetRequiredService<ITargetService>();
         private IMissionService missionService => serviceProvider.GetRequiredService<IMissionService>();
 
         private ApplicationDbContext context = DbContextFactory.CreateDbContext(serviceProvider);
@@ -69,7 +68,7 @@ namespace AgentRest.Service
             await context.SaveChangesAsync();
 
             // Create new missions for closest targets
-            List<TargetModel> closestTargets = await targetService.GetAvailableTargestAsync(agent);
+            List<TargetModel> closestTargets = await GetAvailableTargestAsync(agent);
             if (closestTargets.Count > 0)
             {
                 var newMissions = closestTargets.Select(target => missionService.CreateMissionModel(target, agent)).ToList();
@@ -97,7 +96,7 @@ namespace AgentRest.Service
             await context.SaveChangesAsync();
 
             // Create missions for closest targets
-            var closestTargets = await targetService.GetAvailableTargestAsync(agent) ?? [];
+            var closestTargets = await GetAvailableTargestAsync(agent) ?? [];
             if (closestTargets.Count != 0)
             {
                 var missions = closestTargets.Select((t) => new MissionModel() { AgentId = t.Id, TargetId = agentId, RemainingTime = EavaluateRemainingTime(t, agent)});
@@ -122,5 +121,15 @@ namespace AgentRest.Service
             await context.Agents
             .Where(a => a.AgentStatus == AgentStatus.InActive)
             .ToListAsync();
+
+        // Get available targets for an agent asynchronously
+        public async Task<List<TargetModel>> GetAvailableTargestAsync(AgentModel agent) =>
+            await context.Targets.AnyAsync()
+            ? await context.Targets
+                   .Where(t => t.TargetStatus == TargetStatus.Alive)
+                   .Where(t => Math.Sqrt(Math.Pow(agent.XPosition - t.XPosition, 2)
+                    + Math.Pow(agent.YPosition - t.YPosition, 2)) < 200)
+                   .ToListAsync()
+            : [];
     }
 }
